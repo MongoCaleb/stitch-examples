@@ -465,7 +465,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onEvent(final BsonValue documentId, final ChangeEvent<Document> event) {
 
-            // Is this change coming from local or remote?
+            // Determine whether the change is local or remote
 
             if (event.hasUncommittedWrites()) { //change initiated on the device
                 Log.d("STITCH", "Local change to document " + documentId);
@@ -479,6 +479,12 @@ public class MainActivity extends AppCompatActivity {
                 if (!_itemAdapter.pendingContains(documentId)) refreshList();
                 else _itemAdapter.removeFromPending(documentId);
             }
+
+            if (!event.hasUncommittedWrites()) {
+                // Add custom actions here
+                refreshList();
+            }
+
         }
     }
 
@@ -492,7 +498,12 @@ public class MainActivity extends AppCompatActivity {
                 // Add your logic to inform the user.
                 // When errors have been resolved, call
                 _remoteCollection.sync().resumeSyncForDocument(doc_id);
+                refreshList();
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> fix refresh issue
         }
     }
 }
